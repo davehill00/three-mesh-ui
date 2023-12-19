@@ -422,6 +422,14 @@ vec4 sampleTexture() {
 
 void main() {
 
+	vec4 textureSample = sampleTexture();
+	vec3 blendedColor = textureSample.rgb * u_color;
+	float blendedOpacity = u_opacity * textureSample.a;
+	vec4 frameColor = vec4( blendedColor, blendedOpacity );
+
+	gl_FragColor = frameColor; //vec4(u_color, 1.0);
+
+	/*
 	float edgeDist = getEdgeDist();
 	float change = fwidth( edgeDist );
 
@@ -440,6 +448,7 @@ void main() {
 		float stp = smoothstep( edgeDist + change, edgeDist, u_borderWidth * -1.0 );
 		gl_FragColor = mix( frameColor, borderColor, stp );
 	}
+	*/
 
 	#include <clipping_planes_fragment>
 }
